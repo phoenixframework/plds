@@ -10,8 +10,8 @@ import Config
 # which you should run after static files are built and
 # before starting your production server.
 config :plds, PLDSWeb.Endpoint,
-  url: [host: "example.com", port: 80],
-  cache_static_manifest: "priv/static/cache_manifest.json"
+  http: [ip: {127, 0, 0, 1}, port: 8080],
+  server: true
 
 # Do not print debug messages in production
 config :logger, level: :info

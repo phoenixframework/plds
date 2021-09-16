@@ -7,6 +7,8 @@ config :plds, PLDSWeb.Endpoint,
   secret_key_base: "4uFwNlOnyppVcDWeVcNUgGPOYQD+y7F4mTkconBPSqAleqXvd2wmmcLCqXJanfon",
   server: false
 
+config :plds, :cookie, :"my-plds-test-cookie"
+
 # Print only warnings and errors during test
 config :logger, level: :warn
 
