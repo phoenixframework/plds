@@ -8,7 +8,6 @@ defmodule PLDSWeb.Router do
     get "/health", PLDSWeb.HealthController, :index
 
     live_dashboard "/",
-      metrics: PLDSWeb.Telemetry,
       additional_pages: [broadway: BroadwayDashboard]
   end
 end

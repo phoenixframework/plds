@@ -12,7 +12,6 @@ defmodule PLDS.Application do
     connect_to_nodes!()
 
     children = [
-      PLDSWeb.Telemetry,
       {Phoenix.PubSub, name: PLDS.PubSub},
       PLDSWeb.Endpoint
     ]
