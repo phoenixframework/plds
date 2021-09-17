@@ -3,6 +3,48 @@ defmodule PLDS.Distribution do
 
   require Logger
 
+  # This module ensure that the application start as a node
+  # and connect to the given nodes.
+
+  def ensure_distribution! do
+    unless Node.alive?() do
+      case System.cmd("epmd", ["-daemon"]) do
+        {_, 0} ->
+          :ok
+
+        _ ->
+          PLDS.Utils.abort!("""
+          could not start epmd (Erlang Port Mapper Driver). PLDS uses epmd to \
+          talk to different runtimes. You may have to start epmd explicitly by calling:
+
+              epmd -daemon
+
+          Or by calling:
+
+              elixir --sname test -e "IO.puts node()"
+
+          Then you can try booting PLDS again
+          """)
+      end
+
+      {type, name} = get_node_type_and_name()
+
+      # NOTE: the node is started as hidden. Check `emu_args` in `mix.exs`.
+      case Node.start(name, type) do
+        {:ok, _} ->
+          :ok
+
+        {:error, reason} ->
+          PLDS.Utils.abort!("could not start distributed node: #{inspect(reason)}")
+      end
+    end
+  end
+
+  defp get_node_type_and_name do
+    Application.get_env(:plds, :node) || {:shortnames, :plds}
+  end
+
+  # Nodes can be long or short names.
   def connect_to_nodes!(nodes) do
     [_, host] =
       node()
@@ -21,6 +63,8 @@ defmodule PLDS.Distribution do
 
       connect_to(name)
     end
+
+    :ok
   end
 
   defp long_name?(name) do

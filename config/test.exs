@@ -9,6 +9,7 @@ config :plds, PLDSWeb.Endpoint,
 
 config :plds,
   cookie: :"my-plds-test-cookie",
+  ensure_distribution?: false,
   halt_on_abort: false
 
 # Print only warnings and errors during test

@@ -1,6 +1,8 @@
 defmodule PLDS.Application do
   @moduledoc false
 
+  @ensure_distribution Application.compile_env(:plds, :ensure_distribution?, true)
+
   use Application
 
   require Logger
@@ -8,7 +10,6 @@ defmodule PLDS.Application do
   @impl true
   def start(_type, _args) do
     ensure_distribution!()
-    set_cookie()
     connect_to_nodes!()
 
     children = [
@@ -20,47 +21,16 @@ defmodule PLDS.Application do
     Supervisor.start_link(children, opts)
   end
 
-  defp ensure_distribution! do
-    unless Node.alive?() do
-      case System.cmd("epmd", ["-daemon"]) do
-        {_, 0} ->
-          :ok
+  # We want to avoid to execute this in test env.
+  if @ensure_distribution do
+    defp ensure_distribution! do
+      PLDS.Distribution.ensure_distribution!()
 
-        _ ->
-          PLDS.Utils.abort!("""
-          could not start epmd (Erlang Port Mapper Driver). PLDS uses epmd to \
-          talk to different runtimes. You may have to start epmd explicitly by calling:
-
-              epmd -daemon
-
-          Or by calling:
-
-              elixir --sname test -e "IO.puts node()"
-
-          Then you can try booting PLDS again
-          """)
-      end
-
-      {type, name} = get_node_type_and_name()
-
-      # NOTE: the node is started as hidden. Check `emu_args` at `mix.exs`.
-      case Node.start(name, type) do
-        {:ok, _} ->
-          :ok
-
-        {:error, reason} ->
-          PLDS.Utils.abort!("could not start distributed node: #{inspect(reason)}")
-      end
+      cookie = Application.fetch_env!(:plds, :cookie)
+      Node.set_cookie(cookie)
     end
-  end
-
-  defp set_cookie do
-    cookie = Application.fetch_env!(:plds, :cookie)
-    Node.set_cookie(cookie)
-  end
-
-  defp get_node_type_and_name do
-    Application.get_env(:plds, :node) || {:shortnames, :plds}
+  else
+    defp ensure_distribution!, do: :noop
   end
 
   defp connect_to_nodes! do
