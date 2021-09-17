@@ -1,6 +1,6 @@
 # MIT License
 
-Copyright (c) 2021 Michael Crumm, Chris McCord, José Valim
+Copyright (c) 2021 Philip Sampaio
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

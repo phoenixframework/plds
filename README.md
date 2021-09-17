@@ -1,9 +1,9 @@
-# PLDS - Phoenix Live Dashboard Standalone
+# PLDS - Phoenix LiveDashboard Standalone
 
-PLDS is a bundle of Phoenix Live Dashboard with some tools preinstalled.
+PLDS is a command line interface for Phoenix LiveDashboard with some additional extensions.
 
 It's useful in environments where you can't install Phoenix or the dashboard.
-This can be used to access remote system that are available locally.
+This can be used to access remote system that are reachable locally.
 
 ## Usage
 
@@ -27,4 +27,4 @@ Check the options available by typing `plds --help`.
 
 ## License
 
-MIT License. Copyright (c) 2021 Michael Crumm, Chris McCord, José Valim.
+MIT License. Copyright (c) 2021 Philip Sampaio.
