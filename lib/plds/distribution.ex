@@ -44,7 +44,7 @@ defmodule PLDS.Distribution do
     Application.get_env(:plds, :node) || {:shortnames, :plds}
   end
 
-  # Nodes can be long or short names.
+  # Nodes can have long or short names.
   def connect_to_nodes!(nodes) do
     [_, host] =
       node()

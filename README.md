@@ -15,10 +15,10 @@ Make sure the path used for installing escripts are available in your
 
 After that, you can start PLDS with the following command:
 
-    $ plds server --open
+    $ plds server --connect node_a,node_b --port 9000 --open
 
 The dashboard will open a page in your browser.
-Check the options available by typing `plds --help`.
+Check the options available by typing `plds server --help`.
 
 ## Preinstalled tools
 

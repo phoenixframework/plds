@@ -23,7 +23,7 @@ defmodule PLDS.Utils do
 
   @halt_on_abort Application.compile_env!(:plds, :halt_on_abort)
 
-  # Only halts in normal environments. In test it should raise.
+  # Only halt in normal environments. In test it should raise.
   if @halt_on_abort do
     @doc """
     Aborts booting due to a configuration error.
