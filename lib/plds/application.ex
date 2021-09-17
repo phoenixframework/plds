@@ -44,7 +44,7 @@ defmodule PLDS.Application do
 
       {type, name} = get_node_type_and_name()
 
-      # TODO: Should I start it hidden?
+      # TODO: Should I start it hidden? If so, how?
       case Node.start(name, type) do
         {:ok, _} ->
           :ok
@@ -66,33 +66,10 @@ defmodule PLDS.Application do
 
   defp connect_to_nodes! do
     nodes = Application.get_env(:plds, :nodes_to_connect, [])
-    node_name = Atom.to_string(node())
-    [_, host] = String.split(node_name, "@")
 
-    # We get the current node host as host for when connect
-    # only have shortnames
-    for name <- nodes do
-      name =
-        if String.contains?(Atom.to_string(name), "@") do
-          name
-        else
-          String.to_atom("#{name}@#{host}")
-        end
-
-      connect_to(name)
-    end
+    PLDS.Distribution.connect_to_nodes!(nodes)
   end
 
-  defp connect_to(name) do
-    if Node.connect(name) do
-      Logger.info("[PLDS] Connected to node #{inspect(name)}")
-    else
-      PLDS.Utils.abort!("could not connect to node: #{inspect(name)}")
-    end
-  end
-
-  # Tell Phoenix to update the endpoint configuration
-  # whenever the application is updated.
   @impl true
   def config_change(changed, _new, removed) do
     PLDSWeb.Endpoint.config_change(changed, removed)

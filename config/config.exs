@@ -8,6 +8,7 @@
 import Config
 
 config :plds,
+  halt_on_abort: true,
   namespace: PLDS
 
 # Configures the endpoint

@@ -21,12 +21,21 @@ defmodule PLDS.Utils do
     end
   end
 
-  @doc """
-  Aborts booting due to a configuration error.
-  """
-  @spec abort!(String.t()) :: no_return()
-  def abort!(message) do
-    IO.puts("\nERROR!!! [Livebook] " <> message)
-    System.halt(1)
+  @halt_on_abort Application.compile_env!(:plds, :halt_on_abort)
+
+  # Only halts in normal environments. In test it should raise.
+  if @halt_on_abort do
+    @doc """
+    Aborts booting due to a configuration error.
+    """
+    @spec abort!(String.t()) :: no_return()
+    def abort!(message) do
+      IO.puts("\nERROR!!! [PLDS] " <> message)
+      System.halt(1)
+    end
+  else
+    def abort!(message) do
+      raise "\nERROR!!! [PLDS] " <> message
+    end
   end
 end
