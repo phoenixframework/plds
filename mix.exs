@@ -58,6 +58,7 @@ defmodule PLDS.MixProject do
   defp escript do
     [
       main_module: PLDSCli,
+      emu_args: "-hidden",
       app: nil
     ]
   end

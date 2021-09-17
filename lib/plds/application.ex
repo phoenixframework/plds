@@ -44,7 +44,7 @@ defmodule PLDS.Application do
 
       {type, name} = get_node_type_and_name()
 
-      # TODO: Should I start it hidden? If so, how?
+      # NOTE: the node is started as hidden. Check `emu_args` at `mix.exs`.
       case Node.start(name, type) do
         {:ok, _} ->
           :ok
