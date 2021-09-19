@@ -1,7 +1,7 @@
 defmodule PLDS.Application do
   @moduledoc false
 
-  @ensure_distribution Application.compile_env(:plds, :ensure_distribution?, true)
+  @ensure_distribution Application.get_env(:plds, :ensure_distribution?, true)
 
   use Application
 

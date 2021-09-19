@@ -21,7 +21,7 @@ defmodule PLDS.Utils do
     end
   end
 
-  @halt_on_abort Application.compile_env!(:plds, :halt_on_abort)
+  @halt_on_abort Application.fetch_env!(:plds, :halt_on_abort)
 
   # Only halt in normal environments. In test it should raise.
   if @halt_on_abort do
