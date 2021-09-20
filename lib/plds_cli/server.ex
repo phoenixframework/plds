@@ -11,9 +11,9 @@ defmodule PLDSCli.Server do
 
     Available options:
 
-      --connect            One or more node names to connect.
-                           It accepts a list of nodes separated by comma. Ex: "foo, bar".
-                           If you are using full names, then it will try to connect with the host.
+      -c, --connect        One or more node names to connect.
+                           You can specify more nodes by using this option multiple times. 
+                           It accepts both short and long names. 
       --cookie             Sets a cookie for the app distributed node.
       --ip                 The ip address to start the web application on, defaults to 127.0.0.1
                            Must be a valid IPv4 or IPv6 address.
@@ -112,7 +112,7 @@ defmodule PLDSCli.Server do
     name: :string,
     open: :boolean,
     port: :integer,
-    connect: :string,
+    connect: :keep,
     sname: :string
   ]
 
@@ -159,13 +159,24 @@ defmodule PLDSCli.Server do
     opts_to_config(opts, [{:plds, :cookie, cookie} | config])
   end
 
-  defp opts_to_config([{:connect, names_to_connect} | opts], config) do
-    names =
-      names_to_connect
-      |> String.split(~r/,\s?/)
-      |> Enum.map(fn name -> String.to_atom(name) end)
+  defp opts_to_config([{:connect, name} | opts], config) do
+    name = String.to_atom(name)
 
-    opts_to_config(opts, [{:plds, :nodes_to_connect, names} | config])
+    previous_nodes_to_connect =
+      Enum.find_index(config, &match?({:plds, :nodes_to_connect, _}, &1))
+
+    config =
+      case previous_nodes_to_connect do
+        nil ->
+          [{:plds, :nodes_to_connect, [name]} | config]
+
+        idx ->
+          List.update_at(config, idx, fn {:plds, :nodes_to_connect, existing_names} ->
+            {:plds, :nodes_to_connect, existing_names ++ [name]}
+          end)
+      end
+
+    opts_to_config(opts, config)
   end
 
   defp opts_to_config([_opt | opts], config), do: opts_to_config(opts, config)
