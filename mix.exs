@@ -1,16 +1,23 @@
 defmodule PLDS.MixProject do
   use Mix.Project
 
+  @version "0.1.0"
+  @description "CLI version of Phoenix LiveDashboard"
+
   def project do
     [
       app: :plds,
-      version: "0.1.0",
+      version: @version,
       elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
+      name: "PLDS",
+      description: @description,
       compilers: Mix.compilers(),
       start_permanent: Mix.env() == :prod,
+      package: package(),
       aliases: aliases(),
       escript: escript(),
+      docs: docs(),
       deps: deps()
     ]
   end
@@ -32,7 +39,8 @@ defmodule PLDS.MixProject do
       {:ecto_psql_extras, "~> 0.7"},
       {:broadway_dashboard, "~> 0.2.1"},
       {:jason, "~> 1.2"},
-      {:plug_cowboy, "~> 2.5"}
+      {:plug_cowboy, "~> 2.5"},
+      {:ex_doc, "~> 0.25.3", only: :docs}
     ]
   end
 
@@ -62,5 +70,26 @@ defmodule PLDS.MixProject do
       emu_args: "-hidden",
       app: nil
     ]
+  end
+
+  defp docs do
+    [
+      main: "PLDS",
+      source_ref: "v#{@version}",
+      source_url: "https://github.com/phoenixframework/plds",
+      homepage_url: "https://www.phoenixframework.org/"
+    ]
+  end
+
+  defp package do
+    %{
+      maintainers: ["Philip Sampaio"],
+      licenses: ["Apache-2.0"],
+      links: %{
+        "GitHub" => "https://github.com/phoenixframework/plds",
+        "Phoenix website" => "https://www.phoenixframework.org"
+      },
+      files: ~w(lib config CHANGELOG.md LICENSE.md mix.exs README.md)
+    }
   end
 end
