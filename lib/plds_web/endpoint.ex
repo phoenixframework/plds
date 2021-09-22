@@ -1,6 +1,8 @@
 defmodule PLDSWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :plds
 
+  @moduledoc false
+
   @session_options [
     store: :cookie,
     key: "_plds_key",

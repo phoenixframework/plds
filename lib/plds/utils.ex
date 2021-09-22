@@ -1,4 +1,6 @@
 defmodule PLDS.Utils do
+  @moduledoc false
+
   @doc """
   Parses and validates the ip from env.
   """
