@@ -35,7 +35,7 @@ defmodule PLDS.MixProject do
   defp deps do
     [
       {:phoenix, "~> 1.6.0-rc.0", override: true},
-      {:phoenix_live_dashboard, phoenix_live_dashboard_opts()},
+      {:phoenix_live_dashboard, "~> 0.5.2", phoenix_live_dashboard_opts()},
       {:ecto_psql_extras, "~> 0.7"},
       {:broadway_dashboard, "~> 0.2.1"},
       {:jason, "~> 1.2"},
@@ -48,8 +48,7 @@ defmodule PLDS.MixProject do
     if path = System.get_env("LIVE_DASHBOARD_PATH") do
       [path: path, override: true]
     else
-      # TODO: replace with actual version when we release 0.5.2 or 0.6
-      [github: "phoenixframework/phoenix_live_dashboard", override: true]
+      []
     end
   end
 
