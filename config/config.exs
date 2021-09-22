@@ -28,8 +28,4 @@ config :phoenix, :json_library, Jason
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
-env = config_env()
-
-unless env == :docs do
-  import_config "#{env}.exs"
-end
+import_config "#{config_env()}.exs"
