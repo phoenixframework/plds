@@ -13,6 +13,7 @@ config :plds, PLDSWeb.Endpoint,
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
+  secret_key_base: "1lFra0dpD7ayAn4I3NANdZTKZyd2ecunwvTQzKw+dIBsDZElo3i4cvRLhee3F/VL",
   watchers: []
 
 config :plds, :cookie, :my_cookie
