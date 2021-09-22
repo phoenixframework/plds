@@ -10,7 +10,9 @@ This can be used to access remote systems that are reachable locally.
 
 ## Usage
 
-You can install PLDS using the `mix escript.install hex plds`.
+You can install PLDS by running the following command:
+
+    $ mix escript.install hex plds
 
 Make sure the path used for installing escripts is available in your
 [$PATH](https://en.wikipedia.org/wiki/PATH_(variable)) variable.

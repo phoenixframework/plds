@@ -34,7 +34,7 @@ defmodule PLDS.MixProject do
 
   defp deps do
     [
-      {:phoenix, "~> 1.6.0-rc.0", override: true},
+      {:phoenix, "~> 1.5.13 or ~> 1.6.0"},
       {:phoenix_live_dashboard, "~> 0.5.2", phoenix_live_dashboard_opts()},
       {:ecto_psql_extras, "~> 0.7"},
       {:broadway_dashboard, "~> 0.2.1"},
