@@ -1,5 +1,7 @@
 # PLDS - Phoenix LiveDashboard Standalone
 
+[![CI](https://github.com/phoenixframework/plds/actions/workflows/ci.yml/badge.svg)](https://github.com/phoenixframework/plds/actions/workflows/ci.yml)
+
 <!-- MDOC !-->
 
 PLDS is a command line interface for [Phoenix LiveDashboard](https://github.com/phoenixframework/phoenix_live_dashboard)
