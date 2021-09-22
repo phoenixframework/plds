@@ -19,7 +19,7 @@ defmodule PLDSCli.Server do
                            Must be a valid IPv4 or IPv6 address.
       --name               Set a name for the app distributed node.
       --open               Open browser window pointing to the application.
-      -p, --port           The port to start the web application on. Defaults to 8080.
+      -p, --port           The port to start the web application on. Defaults to 8090.
       --sname              Set a short name for the app distributed node. Defaults to "plds".
 
     The --help option can be given to print this notice.

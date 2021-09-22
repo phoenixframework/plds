@@ -10,7 +10,7 @@ import Config
 # which you should run after static files are built and
 # before starting your production server.
 config :plds, PLDSWeb.Endpoint,
-  http: [ip: {127, 0, 0, 1}, port: 8080],
+  http: [ip: {127, 0, 0, 1}, port: 8090],
   server: true
 
 # Do not print debug messages in production
