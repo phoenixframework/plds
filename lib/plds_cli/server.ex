@@ -15,6 +15,7 @@ defmodule PLDSCli.Server do
                            You can specify more nodes by using this option multiple times. 
                            It accepts both short and long names. 
       --cookie             Sets a cookie for the app distributed node.
+                           This is optional and defaults to `Node.get_cookie()`.
       --ip                 The ip address to start the web application on, defaults to 127.0.0.1
                            Must be a valid IPv4 or IPv6 address.
       --name               Set a name for the app distributed node.

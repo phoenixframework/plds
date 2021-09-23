@@ -26,8 +26,9 @@ defmodule PLDS.Application do
     defp ensure_distribution! do
       PLDS.Distribution.ensure_distribution!()
 
-      cookie = Application.fetch_env!(:plds, :cookie)
-      Node.set_cookie(cookie)
+      if cookie = Application.get_env(:plds, :cookie) do
+        Node.set_cookie(cookie)
+      end
     end
   else
     defp ensure_distribution!, do: :noop
