@@ -60,7 +60,7 @@ defmodule PLDS.Distribution do
   end
 
   defp print_warning(message) do
-    IO.ANSI.format([:yellow, "[PLDS] " <> message]) |> IO.puts()
+    IO.puts(:stderr, IO.ANSI.format([:yellow, "[PLDS] " <> message]))
   end
 
   defp nodes_to_connect do
