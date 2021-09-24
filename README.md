@@ -49,6 +49,12 @@ The only one available today is:
 - Ecto with extras - works for PostgreSQL databases.
 - Broadway Dashboard - to inspect Broadway pipelines.
 
+## Disabled pages
+
+Note that some pages will be disabled when using PLDS. "Metrics" page is disabled
+because we can't tell which module is responsible for the data upfront.
+"OS Data" page is enabled only if the node has the `os_mon` application running.
+
 <!-- MDOC !-->
 
 ## Development
