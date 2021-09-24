@@ -13,7 +13,10 @@ defmodule PLDSCli.Server do
 
       -c, --connect        One or more node names to connect.
                            You can specify more nodes by using this option multiple times. 
-                           It accepts both short and long names. 
+                           It accepts both short and long names. For short names you can
+                           omit the host. If you pass a long name, then PLDS will start
+                           with a long name with host "127.0.0.1". You cannot use short
+                           and long names together.
       --cookie             Sets a cookie for the app distributed node.
                            This is optional and defaults to `Node.get_cookie()`.
       --ip                 The ip address to start the web application on, defaults to 127.0.0.1
@@ -122,16 +125,55 @@ defmodule PLDSCli.Server do
     c: :connect
   ]
 
-  defp args_to_options(args) do
+  # TODO: add tests to the name/sname and connect validations
+  @doc false
+  def args_to_options(args) do
     {opts, _} = OptionParser.parse!(args, strict: @switches, aliases: @aliases)
     validate_options!(opts)
     opts
   end
 
   defp validate_options!(opts) do
-    if Keyword.has_key?(opts, :name) and Keyword.has_key?(opts, :sname) do
-      raise "the provided --sname and --name options are mutually exclusive, please specify only one of them"
+    if Keyword.has_key?(opts, :name) do
+      validate_opts_for_name!(opts)
     end
+
+    if Keyword.has_key?(opts, :sname) do
+      validate_opts_for_short_name!(opts)
+    end
+  end
+
+  defp validate_opts_for_name!(opts) do
+    cond do
+      Keyword.has_key?(opts, :sname) ->
+        raise "the provided --sname and --name options are mutually exclusive, please specify only one of them"
+
+      connecting_to_short_names_with_hosts?(opts) ->
+        raise "the provided connections should have long names because you specified the --name option"
+
+      not PLDS.Utils.long_name?(opts[:name]) ->
+        raise "the provided --name option should include the full host name"
+
+      true ->
+        :ok
+    end
+  end
+
+  defp validate_opts_for_short_name!(opts) do
+    has_full_names? =
+      opts
+      |> Keyword.take([:connect])
+      |> Enum.any?(fn {:connect, name} -> PLDS.Utils.long_name?(name) end)
+
+    if has_full_names? do
+      raise "the provided connections should have short names because you specified the --sname option"
+    end
+  end
+
+  defp connecting_to_short_names_with_hosts?(opts) do
+    opts
+    |> Keyword.take([:connect])
+    |> Enum.any?(fn {:connect, name} -> PLDS.Utils.short_name_with_host?(name) end)
   end
 
   defp opts_to_config([], config), do: config
