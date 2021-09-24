@@ -40,4 +40,35 @@ defmodule PLDS.Utils do
       raise "\nERROR!!! [PLDS] " <> message
     end
   end
+
+  @doc """
+  Check if this app is running with long name.
+  """
+  def long_name? do
+    node_host() =~ "."
+  end
+
+  @doc """
+  Similar to long_name?/0, but check the given name.
+  """
+  def long_name?(name) do
+    name =~ "@" and name =~ "."
+  end
+
+  @doc """
+  Check if the given name is a short name with host.
+  """
+  def short_name_with_host?(name) do
+    String.contains?(name, "@") && not String.contains?(name, ".")
+  end
+
+  @doc """
+  Returns the host part of a node.
+  """
+  @spec node_host() :: binary()
+  def node_host do
+    [_, host] = node() |> Atom.to_string() |> :binary.split("@")
+
+    host
+  end
 end

@@ -10,6 +10,7 @@ defmodule PLDS.Application do
   @impl true
   def start(_type, _args) do
     ensure_distribution!()
+    validate_hostname_resolution!()
     connect_to_nodes!()
 
     children = [
@@ -35,9 +36,28 @@ defmodule PLDS.Application do
   end
 
   defp connect_to_nodes! do
-    nodes = Application.get_env(:plds, :nodes_to_connect, [])
+    PLDS.Distribution.connect_to_nodes!()
+  end
 
-    PLDS.Distribution.connect_to_nodes!(nodes)
+  # See https://github.com/livebook-dev/livebook/pull/303
+  defp validate_hostname_resolution!() do
+    unless PLDS.Utils.long_name?() do
+      hostname = PLDS.Utils.node_host() |> to_charlist()
+
+      if hostname != 'nohost' and :inet.gethostbyname(hostname) == {:error, :nxdomain} do
+        PLDS.Utils.abort!("""
+        your hostname "#{hostname}" does not resolve to any IP address, which indicates something wrong in your OS configuration.
+
+        Make sure your computer's name resolves locally or start PLDS using a long distribution name:
+
+            plds server --name plds@127.0.0.1
+
+        If you are running it from source, do instead:
+
+            MIX_ENV=prod elixir --name plds@127.0.0.1 -S mix phx.server
+        """)
+      end
+    end
   end
 
   @impl true
