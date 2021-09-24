@@ -18,4 +18,17 @@ defmodule PLDS.UtilsTest do
       PLDS.Utils.abort!("my error message")
     end
   end
+
+  test "short_name_with_host?/1" do
+    assert PLDS.Utils.short_name_with_host?("foo@bar")
+    refute PLDS.Utils.short_name_with_host?("foo@bar.baz")
+    refute PLDS.Utils.short_name_with_host?("foo")
+  end
+
+  test "long_name?/1" do
+    assert PLDS.Utils.long_name?("foo@bar.baz")
+    assert PLDS.Utils.long_name?("foo@127.0.0.1")
+    refute PLDS.Utils.long_name?("foo")
+    refute PLDS.Utils.long_name?("foo@bar")
+  end
 end

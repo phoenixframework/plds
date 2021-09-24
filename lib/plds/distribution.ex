@@ -46,7 +46,7 @@ defmodule PLDS.Distribution do
 
   # Choose for a short or long name based on connections.
   def default_node_type_and_name do
-    if Enum.any?(nodes(), &PLDS.Utils.long_name?(Atom.to_string(&1))) do
+    if Enum.any?(nodes_to_connect(), &PLDS.Utils.long_name?(Atom.to_string(&1))) do
       name = :"plds@127.0.0.1"
 
       print_warning(
@@ -63,17 +63,17 @@ defmodule PLDS.Distribution do
     IO.ANSI.format([:yellow, "[PLDS] " <> message]) |> IO.puts()
   end
 
-  defp nodes do
+  defp nodes_to_connect do
     Application.get_env(:plds, :nodes_to_connect, [])
   end
 
   # Nodes can have long or short names.
-  def connect_to_nodes! do
+  def connect_to_nodes!(nodes \\ nodes_to_connect()) do
     host = PLDS.Utils.node_host()
 
     # We get the current node host as host for when connect
     # only have shortnames
-    for name <- nodes() do
+    for name <- nodes do
       name =
         if with_host?(name) do
           name

@@ -44,7 +44,7 @@ defmodule PLDS.Application do
     unless PLDS.Utils.long_name?() do
       hostname = PLDS.Utils.node_host() |> to_charlist()
 
-      if :inet.gethostbyname(hostname) == {:error, :nxdomain} do
+      if hostname != 'nohost' and :inet.gethostbyname(hostname) == {:error, :nxdomain} do
         PLDS.Utils.abort!("""
         your hostname "#{hostname}" does not resolve to any IP address, which indicates something wrong in your OS configuration.
 
