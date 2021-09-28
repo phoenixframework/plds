@@ -53,6 +53,8 @@ The only one available today is:
 
 Note that some pages will be disabled when using PLDS. "Metrics" page is disabled
 because we can't tell which module is responsible for the data upfront.
+The "Request logger" page is disabled as well.
+
 "OS Data" page is enabled only if the node has the `os_mon` application running.
 
 <!-- MDOC !-->
