@@ -18,7 +18,7 @@ defmodule PLDS.MixProject do
       aliases: aliases(),
       escript: escript(),
       docs: docs(),
-      deps: deps()
+      deps: with_lock(deps())
     ]
   end
 
@@ -32,6 +32,16 @@ defmodule PLDS.MixProject do
   defp elixirc_paths(:test), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
 
+  # Although we use requirements here, the with_lock() function
+  # below ensures we only use the locked versions. This is important
+  # because we don't want users to potentially get a new dependency
+  # when installing from git or as an escript.
+  #
+  # Therefore, to update any dependency, you must call before:
+  #
+  #     mix deps.unlock foo bar baz
+  #
+
   defp deps do
     [
       {:phoenix, "~> 1.5.13 or ~> 1.6.0"},
@@ -42,6 +52,23 @@ defmodule PLDS.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:ex_doc, "~> 0.25.3", only: :dev}
     ]
+  end
+
+  @lock (with {:ok, contents} <- File.read("mix.lock"),
+              {:ok, quoted} <- Code.string_to_quoted(contents, warn_on_unnecessary_quotes: false),
+              {%{} = lock, _binding} <- Code.eval_quoted(quoted, []) do
+           for {dep, hex} when elem(hex, 0) == :hex <- lock,
+               do: {dep, elem(hex, 2)},
+               into: %{}
+         else
+           _ -> %{}
+         end)
+
+  defp with_lock(deps) do
+    for dep <- deps do
+      name = elem(dep, 0)
+      put_elem(dep, 1, @lock[name] || elem(dep, 1))
+    end
   end
 
   defp phoenix_live_dashboard_opts do
@@ -88,7 +115,7 @@ defmodule PLDS.MixProject do
         "GitHub" => "https://github.com/phoenixframework/plds",
         "Phoenix website" => "https://www.phoenixframework.org"
       },
-      files: ~w(lib config CHANGELOG.md LICENSE.md mix.exs README.md)
+      files: ~w(lib config CHANGELOG.md LICENSE.md mix.exs mix.lock README.md)
     }
   end
 end
