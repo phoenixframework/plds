@@ -8,7 +8,7 @@ import Config
 # The block below contains prod specific runtime configuration.
 if config_env() == :prod do
   secret_key_base =
-    System.get_env("PDLS_SECRET_KEY_BASE") ||
+    System.get_env("PLDS_SECRET_KEY_BASE") ||
       Base.encode64(:crypto.strong_rand_bytes(48))
 
   config :plds, PLDSWeb.Endpoint,
