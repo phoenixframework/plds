@@ -39,7 +39,7 @@ install the escript directly from GitHub like this:
 PLDS accepts some configuration through environment variables.
 The only one available today is:
 
-* `PDLS_SECRET_KEY_BASE` - the secret base used for session encryption. It must
+* `PLDS_SECRET_KEY_BASE` - the secret base used for session encryption. It must
   be at least 64 characters long. You can use OpenSSL or the [`:crypto.strong_rand_bytes/1`](https://erlang.org/doc/man/crypto.html#strong_rand_bytes-1) function to generate it.
   `openssl rand -base64 48` if you have OpenSSL available.
   By default it's a random value.
