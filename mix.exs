@@ -50,7 +50,7 @@ defmodule PLDS.MixProject do
       {:broadway_dashboard, "~> 0.2.1"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:ex_doc, "~> 0.25.3", only: :dev}
+      {:ex_doc, "~> 0.25", only: :dev}
     ]
   end
 

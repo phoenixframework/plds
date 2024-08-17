@@ -4,9 +4,7 @@ defmodule PLDSWeb do
   def controller do
     quote do
       use Phoenix.Controller, namespace: PLDSWeb
-
       import Plug.Conn
-      alias PLDSWeb.Router.Helpers, as: Routes
     end
   end
 
@@ -34,19 +32,10 @@ defmodule PLDSWeb do
     end
   end
 
-  def channel do
-    quote do
-      use Phoenix.Channel
-    end
-  end
-
   defp view_helpers do
     quote do
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
-
-      import PLDSWeb.ErrorHelpers
-      alias PLDSWeb.Router.Helpers, as: Routes
     end
   end
 
